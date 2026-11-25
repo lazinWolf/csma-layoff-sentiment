@@ -1,0 +1,15 @@
+__pycache__/
+*.pyc
+raw/
+data/processed/
+# full-corpus exports (586 MB, regenerate with scripts/export_tables.py)
+outputs/03_tables/
+logs/
+.cache/
+annotations/*.csv
+annotations/*.sqlite*
+.venv*/
+share/*.zip
+*.sqlite-shm
+*.sqlite-wal
+.DS_Store
