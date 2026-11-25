@@ -9,7 +9,7 @@ This project studies how online communities discuss layoffs, hiring difficulties
 | What you want | Open this |
 |---|---|
 | **Everything on one page: problem, data, team, progress, open tasks** | [Master project reference](docs/PROJECT_REFERENCE.md) |
-| **The current results, by hypothesis H1–H3** | [Findings by hypothesis](outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md) |
+| **The current results, as layers from data to concepts** | [Project in layers](docs/PROJECT_REFERENCE_2.md) |
 | How to turn a number into a finding (the routine we use) | [Interpretation routine](docs/INTERPRETATION_ROUTINE.md) |
 | H3: what kind of comment gets what kind of reply | [Reply notes](outputs/12_replies/REPLY_NOTES.md) |
 | The human label check (to do) | [`outputs/12_replies/check_sheet.csv`](outputs/12_replies/check_sheet.csv) |

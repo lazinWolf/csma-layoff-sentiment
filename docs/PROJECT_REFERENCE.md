@@ -147,13 +147,14 @@ All precision figures so far are *Claude-provisional* and need a human check.
 | Nov | Language and dynamics: distinctive vocabulary, adoption, votes, linked sources | `outputs/10_language/`, `outputs/11_dynamics/` |
 | Nov 19 | **H3 reply analysis:** kind of comment → kind of reply | `outputs/12_replies/REPLY_NOTES.md` |
 | Nov 19 | Interpretation routine written and applied. Checks for H1 and AI-excuse | `docs/INTERPRETATION_ROUTINE.md`, `outputs/13_interpretation/` |
-| Nov 19 | **Findings by hypothesis** | `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md` |
+| Nov 19 | **Findings by hypothesis** (archived Nov 25; replaced by the layered reference) | `outputs/archive/FINDINGS_BY_HYPOTHESIS.md` |
 | Nov 19 | Four directions: same author, sympathy and return, H-1B shock, core vs periphery | `outputs/14_directions/DIRECTIONS_NOTES.md` |
 | Nov 19 | Project tidy-up: old plan archived, outputs index added | `outputs/README.md`, `outputs/archive/` |
+| Nov 25 | **R4 author-type network:** centrality, mixing, communities, rivals (cscq, Jan–Jun 2025) | `outputs/15_network/NETWORK_NOTES.md` |
 
 ## 8. Current results
 
-Full write-ups: `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md` and `outputs/14_directions/DIRECTIONS_NOTES.md`.
+Full write-ups: `docs/PROJECT_REFERENCE_2.md` (layers 4–7), `outputs/14_directions/DIRECTIONS_NOTES.md` and `outputs/15_network/NETWORK_NOTES.md`.
 
 **H1. Layoffs are ambient in cscq and occasional news in r/technology.** (Supported)
 - 2.45% vs 0.20% of comments (Jan–Jun 2025).
@@ -182,7 +183,12 @@ Full write-ups: `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md` and `outputs/14_
 - **H-1B announcement (19 Sep 2025)** (D3). Offshoring talk jumped from about 13% to 43% for one week, then fell below the earlier level. Its framing did not change: a shock, not a shift.
 - **Return after a story** (D2, lead). Newcomers who get *any* reply come back more often (50% vs 39%). Sympathy itself is too rare to judge.
 - **Core vs periphery** (D4). Story-sharers and blamers have the same tenure, but they are different people.
-- **Author network (Oct).** It is fragmented: 64% of users are in the largest component and 97% of pairs exchange only one reply. Attention is concentrated: the top 1% of users get 17.8% of replies.
+- **R4. Author-type network (Nov 25, `15_network`)** on the cscq reply graph (30,976 authors in the LWCC, 97%):
+  - **Position follows activity, not role** (contradicts the expected "central helpers → peripheral story-sharers"). Once activity is matched, story-sharers are not on the periphery and helpers are not hubs. This covers story-sharers who post comments only; people who post their story as a post are not in the data.
+  - **Sympathy flows to story-sharers** (lead). They get 1.6–1.9× more comfort, whoever is replying, and helpers supply most of it.
+  - **Blame-talkers form an argument group** (supported). They reply to each other 1.7× more than chance (z = 8, against a within-thread null), and they challenge rather than agree.
+  - Louvain communities (Q = 0.43) are **not** sorted by type.
+- **Author network (Oct, earlier Gephi export with a different scope).** It is fragmented: 64% of users are in the largest component and 97% of pairs exchange only one reply. Attention is concentrated: the top 1% of users get 17.8% of replies.
 
 **One-sentence answer to the title:** in cscq, solidarity goes to people who say what happened to them. Blame, in any direction, starts debates. Who blames whom is something people bring with them, not something a community produces.
 
@@ -193,7 +199,8 @@ Full write-ups: `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md` and `outputs/14_
 | Unknown collection settings | We can't claim prevalence | Describe "the collected corpus" only |
 | Uneven coverage by community | Trends get confused with coverage | Shared window for comparisons; trends in cscq only |
 | Shared window differs: midterm Jan–May, November Jan–Jun 2025 | Small differences in numbers (2.32% vs 2.45%) | **To decide:** pick one window for the final report |
-| No cscq posts | Thread topics in cscq are unknown | Use comments; top-level comments as a stand-in |
+| No cscq posts (0 in the database, all months) | Thread topics are unknown. In the reply network, 108,722 replies to original posters (40%) have no target, and layoff stories told *as posts* are invisible | Use comments; top-level comments as a stand-in. R3 and R4 describe comment-to-comment conversation only |
+| "Agree" reply marker fires on any reply starting with "This", including hostile ones (R4 reading) | Agreement is overstated | Report blame responses as *debate*, not agreement; add to the check sheet |
 | Labels are keyword markers | Topic ≠ stance (the "blame sideways" label was about 95% just mentions) | Rename to topic labels; human check sheet |
 | Hiring screen precision about 22% | The midterm's 18.7× ratio is unreliable | **Stop quoting it** |
 | Reddit scores are snapshots, early arrival dominates | Vote analyses are biased | Within-thread percentiles; control for arrival time |
@@ -220,11 +227,14 @@ The midterm also promised VADER and transformer stance evaluation, topic modelli
 | Need | File |
 |---|---|
 | This overview | `docs/PROJECT_REFERENCE.md` |
-| Results by hypothesis | `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md` |
+| The project as layers 0–7 (collection → concepts), with status, concept verdicts and next steps | `docs/PROJECT_REFERENCE_2.md` |
+| Results by hypothesis (archived) | `outputs/archive/FINDINGS_BY_HYPOTHESIS.md` |
 | How to interpret a number | `docs/INTERPRETATION_ROUTINE.md` |
 | What every output folder is | `outputs/README.md` |
 | H3 details | `outputs/12_replies/REPLY_NOTES.md` |
 | Four directions | `outputs/14_directions/DIRECTIONS_NOTES.md` |
+| R4 author-type network (GEXF for Gephi) | `outputs/15_network/NETWORK_NOTES.md`, `network_profiled.gexf` |
+| Tableau extracts for R1–R5 | `outputs/16_tableau/TABLEAU_GUIDE.md` |
 | Network findings and Gephi guide | `gephi/analysis/FINDINGS.md`, `gephi/README.md` |
 | Research design and questions | `docs/RESEARCH_DESIGN.md` |
 | Processing decisions and fields | `docs/METHODOLOGY.md`, `docs/DATA_DICTIONARY.md` |
@@ -242,6 +252,8 @@ The midterm also promised VADER and transformer stance evaluation, topic modelli
 | `explore_replies.py` | `12_replies` |
 | `check_interpretations.py` | `13_interpretation` |
 | `explore_directions.py` | `14_directions` |
+| `explore_network.py` (needs networkx, scipy, scikit-learn) | `15_network` |
+| `export_tableau.py` (run after `explore_network.py`) | `16_tableau` |
 
 **Tests:**
 ```

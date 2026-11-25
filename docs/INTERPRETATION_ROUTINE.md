@@ -4,7 +4,7 @@
 
 Producing numbers and plots is the easy part. This routine is the step in between: it turns a number into a claim about people, then tests that claim against other numbers. Running it on one result usually takes 20–40 minutes. It also tells you what to compute next.
 
-The routine applied to this project is in `outputs/04_analysis/FINDINGS_BY_HYPOTHESIS.md`.
+The routine applied to this project is in `docs/PROJECT_REFERENCE_2.md` (layers 4–7). The earlier write-up by hypothesis is archived at `outputs/archive/FINDINGS_BY_HYPOTHESIS.md`.
 
 ```
  number ──► 1 SAY IT ──► 2 EXPECTED? ──► 3 RIVALS ──► 4 CHECK ──► 5 READ ──► 6 NAME IT ──► claim

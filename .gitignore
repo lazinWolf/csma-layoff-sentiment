@@ -13,3 +13,6 @@ share/*.zip
 *.sqlite-shm
 *.sqlite-wal
 .DS_Store
+
+# verbatim comment excerpts (reading only; never publish)
+outputs/15_network/examples.txt
