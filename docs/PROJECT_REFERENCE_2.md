@@ -111,8 +111,9 @@ Within cscq Jan–Jun 2025, there are 40,950 employment comments from 14,235 aut
 | Speech act | `experience` (telling your own story) | What a comment does | 39/40 on layoff comments; about 11/20 overall |
 | Topic | `mentions_execs`, `mentions_offshore`, `ai_excuse` | What it talks about, **not whom it blames** | Only 7 of 70 offshoring mentions blame foreign workers |
 | Claim | `ai_replaces`, `doom` | A view about the future | `ai_replaces`: only 7 of 30 agree with it |
-| Reply function | `sympathy`, `advice`, `agree`, `challenge` | How a reply responds | **Not checked.** `agree` also fires on hostile replies that start with "This…" |
+| Reply function | `sympathy`, `advice`, `agree`, `challenge` | How a reply responds | **Not checked by a person.** `agree` also fires on hostile replies that start with "This…": the stance model reads only 30% of those as agreement, against 82% of other agree hits |
 | Screens | layoffs; hiring | Ways to find candidate comments | About 95%; **about 22%, so do not quote hiring figures** |
+| Model labels (extra signal) | sentiment (VADER, RoBERTa); zero-shot stance `blames_execs`, `ai_is_excuse`, `blames_offshore`, reply `agrees`/`disagrees`/`sympathy` | Off-the-shelf models, not trained on our data | Read against examples: `blames_execs`, `ai_is_excuse` and reply `agrees` are usable; **`blames_offshore` (recall 0.14) and reply `disagrees` (fires on 62% of replies) are not**. See `17_sentiment_stance/` |
 
 - **Concept: construct splitting.** A topic is not blame, and emotional support is not informational support.
 - **Concept: reliability vs validity.**
@@ -130,7 +131,7 @@ Within cscq Jan–Jun 2025, there are 40,950 employment comments from 14,235 aut
 |---|---|---|
 | **R1. How much, and when** | Layoff talk is 2.45% of cscq comments vs 0.20% in r/technology. Inside threads that mention layoffs it is 4.06% vs 0.49%. 67% vs 21% of large threads contain it. Weekly variability (CV) is 0.21 for cscq, 0.45 for r/technology and 0.76 for r/programming | Supported |
 | **R2. How it is framed** | cscq posts own stories (8.9% vs 3.1%) and links to labour statistics (FRED, BLS). r/technology frames layoffs in corporate and political terms and links to news. r/programming talks about the craft | Supported |
-| **D1. The same person in two places** | About 150 people post in both communities. Their mentions of executives are about equal in the two (6.6% vs 5.8%), but their AI talk differs by 9.4 points | Lead |
+| **D1. The same person in two places** | About 150 people post in both communities. Their mentions of executives are about equal in the two (6.6% vs 5.8%), but their AI talk differs by 9.4 points. **Stance (model):** within the same 152 authors, the gaps in *blaming* executives and AI also disappear (every CI includes 0), although r/technology blames more across all authors | Lead |
 | **D3. A shock** | After the H-1B announcement (19 Sep 2025), offshoring talk went from 13% to 43% for one week, then fell below its earlier level. The framing didn't change | Supported |
 | **AI as an excuse** | Did not grow. AI talk overall doubled, so the excuse share only looked bigger | Supported |
 | Spikes | A shared spike in mid-May 2025; cscq's top week is 21 April. **Neither is matched to an event yet** | — |
@@ -148,13 +149,14 @@ Within cscq Jan–Jun 2025, there are 40,950 employment comments from 14,235 aut
 |---|---|---|
 | **R3. Stories draw comfort** | Sympathy in 5.11% of replies vs 1.82% for unmarked comments (×2.82). Advice does not rise | Supported |
 | **R3. Doom draws information** | Advice ×1.38 | Supported |
-| **R3. Blame topics draw debate** | Comments about executives, offshoring or AI as an excuse get slightly more "agreement" and less support. Some of that agreement is hostile, because of the agree marker | Lead: say *debate* |
+| **R3. Blame topics draw less support, and no extra agreement** | Comments about executives, offshoring or AI as an excuse get less sympathy. The marker showed slightly more "agreement" (×1.0–1.5), but read by the stance model it is flat (×0.92–1.19, every CI overlapping the baseline). Half of all agree-marker hits start with "This", and only 30% of those are read as agreement | Lead: drop "blame draws agreement". Don't claim "debate" either, because the model's disagreement label is unusable |
 | **D2. Coming back** | Newcomers who get any reply come back more often (50% vs 39%) | Lead; not causal |
+| **Sentiment check (S2)** | Negativity does not explain the story → sympathy effect. Comparing parents of the same sentiment gives ×2.33, against ×2.35 overall (Jan–Jun 2025) | Lead (model signal) |
 
 - **Concept: emotional vs informational support.** The type of support matches the type of need.
 - **Concept: base rate vs lift.** Even so, about 95% of replies to stories are not sympathetic.
-- **Validity.** CIs are clustered by thread; the effect holds within a length band; vote percentiles agree. **The reply markers are unchecked.**
-- **Files.** `outputs/12_replies/REPLY_NOTES.md`, Tableau `r3_*`.
+- **Validity.** CIs are clustered by thread; the effect holds within a length band and within a sentiment band; vote percentiles agree. **The reply markers are unchecked.**
+- **Files.** `outputs/12_replies/REPLY_NOTES.md`, `outputs/17_sentiment_stance/SENTIMENT_STANCE_NOTES.md`, Tableau `r3_*`.
 
 ## Layer 6. Network: who is connected to whom
 
@@ -166,7 +168,7 @@ Within cscq Jan–Jun 2025, there are 40,950 employment comments from 14,235 aut
 |---|---|---|
 | **N1** | **Position follows activity, not role.** The expected picture, with helpers at the centre and story-sharers on the edge, is contradicted | Supported (no difference) |
 | **N2** | Story-sharers receive 1.6–1.9× more sympathy, whoever is replying | Lead |
-| **N3** | Blame-talkers reply to each other 1.69× more than chance (z = 8 against a model that shuffles replies within threads). Inside the group challenge rises (7.2% vs 4.5%) and agreement does not | Supported |
+| **N3** | Blame-talkers reply to each other 1.69× more than chance (z = 8 against a model that shuffles replies within threads). Inside the group challenge rises (7.2% vs 4.5%) and agreement does not. **Tone (model):** their replies to each other are negative 50% of the time vs 40% between other authors, and the gap holds at equal parent sentiment (7–14 points) | Supported; the tone part is a Lead |
 | **N4** | The 59 Louvain communities (Q = 0.43) are not sorted by author type (NMI ≈ 0.005) | Supported (no difference) |
 | **N5** | k-means finds clusters for story, executives, AI-as-excuse and the rest, but no helper cluster. It barely matches the rule-based types (ARI 0.14) | Lead |
 
@@ -189,11 +191,12 @@ Within cscq Jan–Jun 2025, there are 40,950 employment comments from 14,235 aut
 | Concept | Definition in our data | Evidence (layer) | Verdict | What would strengthen it |
 |---|---|---|---|---|
 | **Solidarity** | Sympathy replies to people who tell their own story | R3 ×2.82 (5); N2 (6); D2 (5) | **Supported.** It follows disclosure, not a shared enemy | Checked reply labels; absolute rates next to the lift |
+| **Sentiment is not stance** | How well tone separates story comments from blame comments | A score of 0.50 in cscq, where 0.5 is chance (17) | **Supported.** Sentiment would merge solidarity and blame | — |
 | **Type of support** | Emotional support (sympathy) vs informational support (advice) | Stories draw sympathy; doom draws advice (5) | **Supported.** The support matches the need | — |
-| **Blame** | *Topic* mentions of executives, offshoring, AI as an excuse | R2 (4); R3 (5); N3 (6) | **Topic only.** We measure what people talk about, not whom they blame | Stance labels (Krish) |
-| **Affective (antagonistic) echo chamber** | People cluster together more than a null model predicts, and challenge rather than agree inside the cluster | N3: lift 1.69, z = 8; challenge up, agreement flat (6) | **Consistent with one**: an argument group | Show that the people arguing hold opposing stances |
-| **Polarisation** | Would need stance groups and a measure of how much they interact across groups | — | **Not measurable now.** We have topics, not positions | Stance labels plus a measure of cross-group interaction. Don't claim it |
-| **Selection vs influence** | Whether the same person frames things differently in different communities | D1: executives framing the same; AI talk differs (4) | **Lead.** Blame is brought in by people; AI talk is shaped by the community | A larger cross-poster set |
+| **Blame** | *Topic* mentions of executives, offshoring, AI as an excuse; plus a zero-shot stance reading | R2 (4); R3 (5); N3 (6); stance model (17) | **Mostly topic.** The stance model reads only 8% of executive mentions as blame. Blame of executives and of AI is usable as a model signal; blame of offshoring is not | Stance labels checked by people (Krish) |
+| **Affective (antagonistic) echo chamber** | People cluster together more than a null model predicts, and challenge rather than agree inside the cluster | N3: lift 1.69, z = 8; challenge up, agreement flat; more negative tone inside the group at equal parent sentiment (6, 17) | **Consistent with one**: an argument group with a hostile tone | Show that the people arguing hold opposing stances |
+| **Polarisation** | Would need stance groups and a measure of how much they interact across groups | Tried with the stance model: only 9–40 replies per target, and no usable disagreement label (17) | **Not measurable now** | Stance labels checked by people, plus a measure of cross-group interaction. Don't claim it |
+| **Selection vs influence** | Whether the same person frames things differently in different communities | D1: executives framing the same; AI talk differs (4). Stance: within the same 152 authors, gaps in blaming executives and in blaming AI also disappear (17) | **Lead.** Blame is brought in by people; AI *talk* is shaped by the community | A larger cross-poster set |
 | **Participation inequality** | How concentrated activity and attention are | Heavy tails (2); N1 (6) | **Supported.** The network is a crowd, not a set of roles | — |
 | **Issue-attention cycle** | Steady vs bursty talk, and shocks that fade | Weekly variability; D3 (4) | **Supported.** Disruption is a standing condition in cscq and news elsewhere | Match the spikes to events |
 | **Framing / evidence cultures** | What kind of evidence each community uses | Stories and labour statistics vs news vs craft (4) | **Supported** | — |
@@ -202,7 +205,7 @@ Selection vs influence, participation inequality, the issue-attention cycle and 
 
 **The argument in three claims.**
 1. **Disruption is a standing condition for those affected and news for everyone else.** (Issue-attention cycle; evidence cultures.)
-2. **Communities answer disclosure with support and blame with argument.** (Solidarity; type of support; affective echo chamber.)
+2. **Communities answer disclosure with support, and give blame less support and no extra agreement. The people who keep raising blame argue among themselves in a more hostile tone.** (Solidarity; type of support; affective echo chamber.) Sentiment alone could not show this, because stories and blame sound equally negative.
 3. **Who blames whom is mostly brought in by people; what gets talked about is shaped by the community. The network is organised by how much people take part, not by their roles.** (Selection vs influence; participation inequality.)
 
 **What we are not claiming.**
@@ -221,7 +224,7 @@ Selection vs influence, participation inequality, the issue-attention cycle and 
 | 3 | **Code the 240-row check sheet** with a second coder, ideally Krish, and include the hostile "This…" replies | Every Finding |
 | 3 | Show Krish the R3 and R4 results | Stance labels, needed for blame and polarisation |
 | 4 | Pick one shared window. Match the 21 April, mid-May and mid-December spikes to events | Consistent R1 numbers, and an explanation for the spikes |
-| 5–7 | Fix the wording: *debate*, not agreement; the executives vs AI split; absolute rates next to every lift | Report draft |
+| 5–7 | Fix the wording: blame topics draw *less support and no extra agreement* (not "agreement", not "debate"); the executives vs AI split; absolute rates next to every lift | Report draft |
 | All | Build one validity table with a row per layer, from `16_tableau/r5_robustness_long.csv` | R5 |
 | — | Write the report in order: layers 0–3 as data and method, 4–6 as results, 7 as discussion | — |
 
@@ -229,10 +232,11 @@ Selection vs influence, participation inequality, the issue-attention cycle and 
 
 ## Before committing or sharing
 
-- Keep `outputs/15_network/examples.txt` private: it contains verbatim comments.
+- Keep `outputs/15_network/examples.txt` and `outputs/17_sentiment_stance/examples.txt` private: they contain verbatim comments. Both are git-ignored.
+- Model scores are cached in `data/processed/model_scores.sqlite`, which is git-ignored and keyed by Reddit id.
 - Author keys must never appear in outputs. The R4 ids (`a…`/`n…`) and the Tableau ids (`p…`/`t…`) are separate schemes that cannot be joined.
 - Large files: `network_profiled.gexf` is 15 MB; `outputs/16_tableau/` is 42 MB.
-- Nothing has been committed yet.
+- Everything up to the layered reference is on the branch `r4-network-tableau-layers`. The sentiment and stance work is not committed yet.
 
 ## Output folders by layer
 
@@ -245,6 +249,7 @@ Selection vs influence, participation inequality, the issue-attention cycle and 
 | 4 | `08_midterm/`, `10_language/`, `11_dynamics/`, `13_interpretation/`, `14_directions/` |
 | 5 | `12_replies/` |
 | 6 | `15_network/` (and `gephi/` at the project root) |
+| 3, 5–7 (model signal) | `17_sentiment_stance/` |
 | 7 | This file |
 | All | `16_tableau/` (named by result, R1–R5) |
 | — | `archive/` (superseded, including `FINDINGS_BY_HYPOTHESIS.md`) |

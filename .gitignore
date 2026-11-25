@@ -16,3 +16,4 @@ share/*.zip
 
 # verbatim comment excerpts (reading only; never publish)
 outputs/15_network/examples.txt
+outputs/17_sentiment_stance/examples.txt

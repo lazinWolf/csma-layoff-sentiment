@@ -151,6 +151,7 @@ All precision figures so far are *Claude-provisional* and need a human check.
 | Nov 19 | Four directions: same author, sympathy and return, H-1B shock, core vs periphery | `outputs/14_directions/DIRECTIONS_NOTES.md` |
 | Nov 19 | Project tidy-up: old plan archived, outputs index added | `outputs/README.md`, `outputs/archive/` |
 | Nov 25 | **R4 author-type network:** centrality, mixing, communities, rivals (cscq, Jan–Jun 2025) | `outputs/15_network/NETWORK_NOTES.md` |
+| Nov 26 | **Sentiment and zero-shot stance** (extra signal; no human labels) | `outputs/17_sentiment_stance/SENTIMENT_STANCE_NOTES.md` |
 
 ## 8. Current results
 
@@ -190,7 +191,7 @@ Full write-ups: `docs/PROJECT_REFERENCE_2.md` (layers 4–7), `outputs/14_direct
   - Louvain communities (Q = 0.43) are **not** sorted by type.
 - **Author network (Oct, earlier Gephi export with a different scope).** It is fragmented: 64% of users are in the largest component and 97% of pairs exchange only one reply. Attention is concentrated: the top 1% of users get 17.8% of replies.
 
-**One-sentence answer to the title:** in cscq, solidarity goes to people who say what happened to them. Blame, in any direction, starts debates. Who blames whom is something people bring with them, not something a community produces.
+**One-sentence answer to the title:** in cscq, solidarity goes to people who say what happened to them. Blame draws less support, and among the people who keep raising it, a more hostile tone. Who blames whom is something people bring with them, not something a community produces.
 
 ## 9. Known problems and caveats
 
@@ -200,7 +201,7 @@ Full write-ups: `docs/PROJECT_REFERENCE_2.md` (layers 4–7), `outputs/14_direct
 | Uneven coverage by community | Trends get confused with coverage | Shared window for comparisons; trends in cscq only |
 | Shared window differs: midterm Jan–May, November Jan–Jun 2025 | Small differences in numbers (2.32% vs 2.45%) | **To decide:** pick one window for the final report |
 | No cscq posts (0 in the database, all months) | Thread topics are unknown. In the reply network, 108,722 replies to original posters (40%) have no target, and layoff stories told *as posts* are invisible | Use comments; top-level comments as a stand-in. R3 and R4 describe comment-to-comment conversation only |
-| "Agree" reply marker fires on any reply starting with "This", including hostile ones (R4 reading) | Agreement is overstated | Report blame responses as *debate*, not agreement; add to the check sheet |
+| "Agree" reply marker fires on any reply starting with "This", including hostile ones (R4 reading) | Agreement is overstated. The stance model reads only 30% of "This…" hits as agreement, and reads blame topics as drawing no extra agreement (`17_sentiment_stance/`) | Drop "blame draws agreement". Say blame draws *less support, no extra agreement*; add to the check sheet |
 | Labels are keyword markers | Topic ≠ stance (the "blame sideways" label was about 95% just mentions) | Rename to topic labels; human check sheet |
 | Hiring screen precision about 22% | The midterm's 18.7× ratio is unreliable | **Stop quoting it** |
 | Reddit scores are snapshots, early arrival dominates | Vote analyses are biased | Within-thread percentiles; control for arrival time |
@@ -220,7 +221,7 @@ Full write-ups: `docs/PROJECT_REFERENCE_2.md` (layers 4–7), `outputs/14_direct
 | 8 | Rebuild the share ZIP (`python scripts/build_share_package.py`); the current one is from 6 October | Before sharing | |
 | 9 | Record the final deadline and report requirements here | Team | Planning |
 
-The midterm also promised VADER and transformer stance evaluation, topic modelling and external labour indicators. **These have not been started.** Do them only if a hypothesis needs them.
+The midterm also promised VADER and transformer stance evaluation, topic modelling and external labour indicators. VADER, a transformer sentiment model and zero-shot stance have now been run as an extra signal (`17_sentiment_stance/`). They have **not** been evaluated against human labels. Topic modelling and labour indicators **have not been started**. Do them only if a hypothesis needs them.
 
 ## 11. File map
 
@@ -254,6 +255,7 @@ The midterm also promised VADER and transformer stance evaluation, topic modelli
 | `explore_directions.py` | `14_directions` |
 | `explore_network.py` (needs networkx, scipy, scikit-learn) | `15_network` |
 | `export_tableau.py` (run after `explore_network.py`) | `16_tableau` |
+| `score_text_models.py` (GPU; needs torch, transformers, vaderSentiment; set `HF_HUB_OFFLINE=1` once the models are cached), then `explore_sentiment_stance.py` | `17_sentiment_stance` |
 
 **Tests:**
 ```
